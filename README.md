@@ -1,4 +1,4 @@
-# franklin_trial
+# vehicle_recognition
 
 A new Flutter project.
 

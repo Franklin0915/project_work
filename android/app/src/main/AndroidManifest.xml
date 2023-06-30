@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.franklin_trial">
+    package="com.wyse.emma.vehicle_recognition">
    <application
-        android:label="franklin_trial"
+        android:label="vehicle_recognition"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
