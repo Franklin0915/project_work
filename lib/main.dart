@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:vehicle_recognition/onboarding.dart';
-
+import 'package:flutter/services.dart';
+import 'package:vehicle_recognition/Utils/di.dart';
+import 'package:vehicle_recognition/onboarding_1.dart';
 
 void main() {
-  runApp(const VehicleRecognition());
-}
-
-class VehicleRecognition extends StatelessWidget {
-  const VehicleRecognition({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Onboarding(),
-    );
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    Injector.registerDependencies();
+  } catch (e) {
+    debugPrint(e.toString());
   }
+
+  runApp(const VehicleRecognition());
 }

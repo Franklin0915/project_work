@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import "package:vehicle_recognition/Utils/assets.dart";
 import 'package:vehicle_recognition/scan_page.dart';
 
-class Onboarding extends StatelessWidget {
-  const Onboarding({Key? key}) : super(key: key);
+
+class Onboarding2 extends StatelessWidget {
+  const Onboarding2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +31,13 @@ class Onboarding extends StatelessWidget {
               ),
               child: Container(
                 color: Colors.purple[900]?.withOpacity(0.5),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 45, 20, 0),
+                child: const Padding(
+                  padding:  EdgeInsets.fromLTRB(20, 45, 20, 0),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
+                        children:  [
                           Icon(
                             Icons.menu,
                             color: Colors.white,
@@ -47,8 +48,8 @@ class Onboarding extends StatelessWidget {
                           )
                         ],
                       ),
-                      const SizedBox(height: 50),
-                      const Align(
+                       SizedBox(height: 50),
+                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "VEHICLE \nNUMBER \nPLATE \nRECOGNITION",

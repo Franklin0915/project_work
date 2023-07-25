@@ -1,8 +1,52 @@
-import "package:flutter/material.dart";
-import "package:vehicle_recognition/Utils/assets.dart";
+import "dart:io";
 
-class ScanPage extends StatelessWidget {
+import "package:flutter/material.dart";
+import "package:image_picker/image_picker.dart";
+import "package:vehicle_recognition/Utils/assets.dart";
+import "package:vehicle_recognition/bloc/recognize_plate_bloc.dart";
+import "package:vehicle_recognition/bloc/recognize_plate_events.dart";
+import "package:vehicle_recognition/bloc/recognize_plate_state.dart";
+import "package:vehicle_recognition/results.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class ScanPage extends StatefulWidget {
   const ScanPage({Key? key}) : super(key: key);
+
+  @override
+  State<ScanPage> createState() => _ScanPageState();
+}
+
+class _ScanPageState extends State<ScanPage> {
+  late ImagePicker _imagePicker;
+  XFile? xfile;
+
+  @override
+  void initState() {
+    super.initState();
+    _imagePicker = ImagePicker();
+  }
+
+  Future<void> _handlePickImage() async {
+    final image = await _imagePicker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      setState(() {
+        xfile = image;
+      });
+    }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        action: SnackBarAction(
+          label: 'OKAY',
+          textColor: Colors.yellow,
+          onPressed: ScaffoldMessenger.of(context).removeCurrentSnackBar,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,23 +95,43 @@ class ScanPage extends StatelessWidget {
                           )
                         ],
                       ),
-                      TextButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.purple[900]),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                      BlocListener<RecognizePlateBloc, RecognizePlateState>(
+                        listener: (_, state) {
+                          state.maybeMap(
+                              orElse: () {},
+                              loading: (_) => _showSnackBar("loading..."),
+                              success: (state) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ResultsPage(result: state.result),
+                                  ),
+                                );
+                              },
+                              error: (state) => _showSnackBar(state.message));
+                        },
+                        child: TextButton(
+                          onPressed: () {
+                            _handlePickImage().then((value) {
+                              if (xfile != null) {
+                                context.read<RecognizePlateBloc>().add(RecognizePlateEvent(xfile!));
+                              }
+                            });
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.purple[900]),
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
                             ),
                           ),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.fromLTRB(50, 10, 50, 10),
-                          child: Text(
-                            "Scan",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          child: const Padding(
+                            padding: EdgeInsets.fromLTRB(50, 10, 50, 10),
+                            child: Text(
+                              "Scan",
+                              style: TextStyle(color: Colors.white, fontSize: 20),
+                            ),
                           ),
                         ),
                       )
