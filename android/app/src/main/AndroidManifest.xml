@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wyse.emma.vehicle_recognition">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="vehicle_recognition"
         android:name="${applicationName}"

@@ -8,7 +8,9 @@ class NetworkService {
 
   NetworkService() {
     _dio = Dio(BaseOptions(
-        connectTimeout: const Duration(milliseconds: 10000), baseUrl: kBaseUrl, contentType: "application/json"));
+        connectTimeout: const Duration(milliseconds: 10000),
+        baseUrl: kBaseUrl,
+        contentType: "application/json"));
 
     _dio.interceptors.add(
       InterceptorsWrapper(
@@ -34,13 +36,19 @@ class NetworkService {
     }
   }
 
-  Future<NetworkResponse> post(
-      {required String url, Map<String, String>? headers, required Map<String, dynamic> body}) async {
+  Future<NetworkResponse> post({
+    required bool isFormData,
+    required String url,
+    Map<String, String>? headers,
+    required Map<String, dynamic> body,
+  }) async {
     try {
-      final response = await _dio.post(url, data: body);
+      FormData formData = FormData.fromMap(body);
+      final response = isFormData
+          ? await _dio.post(url, data: formData)
+          : await _dio.post(url, data: body);
       return handleResponse(response);
     } on DioException catch (e) {
-      // print(e);
       return _handleErrorResponse(e);
     }
   }
@@ -59,7 +67,8 @@ class NetworkResponse {
 
   NetworkResult result;
 
-  NetworkResponse({required this.data, this.error, this.headers, required this.result});
+  NetworkResponse(
+      {required this.data, this.error, this.headers, required this.result});
 }
 
 enum NetworkResult {
@@ -97,5 +106,8 @@ NetworkResponse handleResponse(Response response) {
 }
 
 NetworkResponse _handleErrorResponse(DioError error) {
-  return NetworkResponse(data: null, result: NetworkResult.FAILURE, error: NetworkFailure(error.toString()));
+  return NetworkResponse(
+      data: null,
+      result: NetworkResult.FAILURE,
+      error: NetworkFailure(error.toString()));
 }

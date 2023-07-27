@@ -20,5 +20,6 @@ class Injector {
     getIt.registerLazySingleton<RecognizePlate>(
       () => RecognizePlate(getIt.get<RecognizePlateRepository>()),
     );
+    
   }
 }
