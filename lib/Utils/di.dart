@@ -3,6 +3,7 @@ import 'package:vehicle_recognition/api/plate_recognition_datasource.dart';
 import 'package:vehicle_recognition/api/plate_recognition_repository.dart';
 
 import '../api/plate_recognition_usecase.dart';
+import 'network.dart';
 
 class Injector {
   static late GetIt getIt;
@@ -13,13 +14,14 @@ class Injector {
 
   static void registerDependencies() {
     _initializeGetIt();
-    getIt.registerLazySingleton<RecognizePlateRemoteDatasource>(() => RecognizePlateRemoteDatasourceImpl());
+    getIt.registerLazySingleton<NetworkService>(() => NetworkService());
+    getIt.registerLazySingleton<RecognizePlateRemoteDatasource>(
+        () => RecognizePlateRemoteDatasourceImpl(getIt.get<NetworkService>()));
     getIt.registerLazySingleton<RecognizePlateRepository>(
       () => RecognizePlateRepositoryImpl(getIt.get<RecognizePlateRemoteDatasource>()),
     );
     getIt.registerLazySingleton<RecognizePlate>(
       () => RecognizePlate(getIt.get<RecognizePlateRepository>()),
     );
-    
   }
 }

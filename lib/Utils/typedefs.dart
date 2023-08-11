@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'errors.dart';
+import 'network.dart';
 
 abstract class Usecase<R, P> {
   Future<Either<UIError, R>> call(P param);

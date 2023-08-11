@@ -4,7 +4,7 @@ import 'package:vehicle_recognition/Utils/typedefs.dart';
 import 'plate_recognition_datasource.dart';
 
 abstract class RecognizePlateRepository {
-  Future<String> recognizePlate(XFile imageFile);
+  Future<String?> recognizePlate(XFile imageFile);
 }
 
 class RecognizePlateRepositoryImpl implements RecognizePlateRepository {
@@ -13,7 +13,7 @@ class RecognizePlateRepositoryImpl implements RecognizePlateRepository {
   RecognizePlateRepositoryImpl(this._recognizePlateRemoteDatasource);
 
   @override
-  Future<String> recognizePlate(XFile imageFile) async {
+  Future<String?> recognizePlate(XFile imageFile) async {
     return await guardedApiCall(() => _recognizePlateRemoteDatasource.recognizePlate(imageFile));
   }
 }
