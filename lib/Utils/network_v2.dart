@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:vehicle_recognition/Utils/constants.dart';
 import 'package:vehicle_recognition/Utils/errors.dart';
@@ -17,7 +18,6 @@ class NetworkServiceV2 {
   }
 
   Future<NetworkResponse> postFile({
-    required bool isFormData,
     required String url,
     Map<String, String>? headers,
     Map<String, dynamic>? body,
@@ -61,5 +61,26 @@ class NetworkServiceV2 {
       throw ApiFailure("failed to send file");
     }
     return NetworkResponse(data: responseJson["data"], result: NetworkResult.SUCCESS);
+  }
+
+  Future<String> postFileV2({
+    required File file,
+  }) async {
+    try {
+      final postUri = Uri.parse(kBaseUrl);
+      http.MultipartRequest request = http.MultipartRequest("POST", postUri);
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath('file', file.path);
+      request.files.add(multipartFile);
+
+      http.StreamedResponse streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      if (!response.statusCode.toString().startsWith("2")) {
+        throw ApiFailure("an error occured");
+      }
+      debugPrint(response.body);
+      return response.body;
+    } catch (e) {
+      throw ApiFailure(e.toString());
+    }
   }
 }
