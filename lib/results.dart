@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:vehicle_recognition/api/car_model.dart';
 
 import 'Utils/assets.dart';
 
 class ResultsPage extends StatelessWidget {
-  final String result;
+  final CarModel result;
+
   const ResultsPage({required this.result, Key? key}) : super(key: key);
 
   @override
@@ -24,7 +26,8 @@ class ResultsPage extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -59,29 +62,16 @@ class ResultsPage extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.2,
             child: Container(
               color: HexColor("#573A9F"),
-              child: Align(
+              child: const Align(
                 alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: const Text(
-                      "check scanned plates >>>",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                        decoration: TextDecoration.none,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
               ),
             ),
           ),
           Positioned(
               top: MediaQuery.of(context).size.height * 0.19,
-              left: (MediaQuery.of(context).size.width - MediaQuery.of(context).size.width * 0.7) / 2,
+              left: (MediaQuery.of(context).size.width -
+                      MediaQuery.of(context).size.width * 0.7) /
+                  2,
               child: Container(
                 color: HexColor("#573A9F"),
                 width: MediaQuery.of(context).size.width * 0.7,
@@ -95,6 +85,70 @@ class ResultsPage extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                       textAlign: TextAlign.center),
+                ),
+              )),
+          Positioned(
+              top: MediaQuery.of(context).size.height * 0.4,
+              left: (MediaQuery.of(context).size.width -
+                      MediaQuery.of(context).size.width * 0.7) /
+                  2,
+              right: (MediaQuery.of(context).size.width -
+                      MediaQuery.of(context).size.width * 0.7) /
+                  2,
+              child: SizedBox(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Car Name:${result.name}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          decoration: TextDecoration.none,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Owned by:${result.ownerFullName}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          decoration: TextDecoration.none,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Number Plate:${result.numberPlate}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          decoration: TextDecoration.none,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Color of car:${result.color}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          decoration: TextDecoration.none,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Registered at:${result.registeredAt}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          decoration: TextDecoration.none,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
                 ),
               ))
         ],

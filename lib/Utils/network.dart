@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:flutter/material.dart';
 
 import 'constants.dart';
 import 'errors.dart';
@@ -18,13 +19,7 @@ class NetworkService {
     ));
 
     // bypassing TLS/SSL. Not Advisable
-    // (_dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
-    //   client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
-    //   return client;
-    // };
-
-    (_dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
-      HttpClient client = HttpClient();
+    (_dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
       client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
       return client;
     };
@@ -33,13 +28,12 @@ class NetworkService {
       InterceptorsWrapper(
         onResponse: (response, handler) => handler.resolve(
           Response(
-            statusCode: response.statusCode,
-            requestOptions: RequestOptions(path: kBaseUrl),
-            headers: response.headers,
-            statusMessage: response.statusMessage,
-            extra: response.extra,
-            data: response.data,
-          ),
+              statusCode: response.statusCode,
+              requestOptions: RequestOptions(path: kBaseUrl),
+              headers: response.headers,
+              statusMessage: response.statusMessage,
+              extra: response.extra,
+              data: response.data),
         ),
       ),
     );
@@ -61,6 +55,11 @@ class NetworkService {
     required Map<String, dynamic> body,
   }) async {
     try {
+      (_dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+        client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+
       FormData formData = FormData.fromMap(body);
       final response = isFormData ? await _dio.post(url, data: formData) : await _dio.post(url, data: body);
       return handleResponse(response);

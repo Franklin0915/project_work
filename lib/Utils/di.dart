@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:vehicle_recognition/Utils/network_v2.dart';
 import 'package:vehicle_recognition/api/plate_recognition_datasource.dart';
 import 'package:vehicle_recognition/api/plate_recognition_repository.dart';
 
@@ -15,6 +16,7 @@ class Injector {
   static void registerDependencies() {
     _initializeGetIt();
     getIt.registerLazySingleton<NetworkService>(() => NetworkService());
+    getIt.registerLazySingleton<NetworkServiceV2>(() => NetworkServiceV2());
     getIt.registerLazySingleton<RecognizePlateRemoteDatasource>(
         () => RecognizePlateRemoteDatasourceImpl(getIt.get<NetworkService>()));
     getIt.registerLazySingleton<RecognizePlateRepository>(

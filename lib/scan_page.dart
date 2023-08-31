@@ -2,11 +2,14 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:image_picker/image_picker.dart";
 import "package:vehicle_recognition/Utils/assets.dart";
+import "package:vehicle_recognition/Utils/constants.dart";
 import "package:vehicle_recognition/bloc/recognize_plate_bloc.dart";
 import "package:vehicle_recognition/bloc/recognize_plate_events.dart";
 import "package:vehicle_recognition/bloc/recognize_plate_state.dart";
 import "package:vehicle_recognition/results.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class ScanPage extends StatefulWidget {
 
 class _ScanPageState extends State<ScanPage> {
   late ImagePicker _imagePicker;
+  bool _loading =false;
   XFile? xfile;
 
   @override
@@ -97,27 +101,44 @@ class _ScanPageState extends State<ScanPage> {
                       BlocConsumer<RecognizePlateBloc, RecognizePlateState>(
                         listener: (_, state) {
                           state.maybeMap(
-                              orElse: () {},
-                              loading: (_) => _showSnackBar("loading..."),
+                              orElse: () {
+                                setState(() {
+                                  _loading= false;
+                                });
+                              },
+                             loading: (_) {
+                               setState(() {
+                                 _loading = true;
+                               });
+                             },
                               success: (state) {
+                                setState(() {
+                                  _loading= false;
+                                });
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => ResultsPage(result: state.result ?? ""),
+                                    builder: (_) => ResultsPage(result: state.result),
                                   ),
                                 );
                               },
-                              error: (state) => _showSnackBar(state.message));
+                              error: (state) {
+                                setState(() {
+                                  _loading= false;
+                                });
+                                _showSnackBar(state.message);
+                              });
                         },
                         builder: (_, state) {
                           return state.maybeMap(
                             orElse: () => TextButton(
                               onPressed: () {
-                                _handlePickImage().then((value) {
+                                _handlePickImage().then((value)async{
                                   if (xfile != null) {
                                     context.read<RecognizePlateBloc>().add(RecognizePlateEvent(xfile!));
                                   }
-                                });
+
+                               });
                               },
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(Colors.purple[900]),
@@ -146,14 +167,8 @@ class _ScanPageState extends State<ScanPage> {
             ),
           ),
           const SizedBox(height: 30),
-          const Text(
-            "DETAILS OF NUMBER PLATE",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          )
+          _loading? const CupertinoActivityIndicator() : const SizedBox(),
+
         ],
       ),
     );

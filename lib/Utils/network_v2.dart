@@ -17,7 +17,7 @@ class NetworkServiceV2 {
       ..badCertificateCallback = (cert, host, port) => true;
   }
 
-  Future<NetworkResponse> postFile({
+  Future<String> postFile({
     required String url,
     Map<String, String>? headers,
     Map<String, dynamic>? body,
@@ -36,7 +36,7 @@ class NetworkServiceV2 {
     final request = await _client.postUrl(Uri.parse(kBaseUrl)); // Use the provided URL parameter
     final fileStream = file.openRead();
     final fileLength = await file.length();
-    final multipartRequest = http.MultipartRequest('', request.uri); // Initialize MultipartRequest from http package
+    final multipartRequest = http.MultipartRequest('POST', request.uri); // Initialize MultipartRequest from http package
 
     if (headers != null) {
       headers.forEach((key, value) {
@@ -52,34 +52,40 @@ class NetworkServiceV2 {
     ));
 
     // Send the request and get the response
-    final response = await multipartRequest.send();
+    final streamedResponse = await multipartRequest.send();
 
     // Read response data and transform it into NetworkResponse
-    final responseData = await response.stream.toBytes();
-    final responseJson = json.decode(utf8.decode(responseData));
+    final response = await http.Response.fromStream(streamedResponse);
     if (!response.statusCode.toString().contains("2")) {
       throw ApiFailure("failed to send file");
     }
-    return NetworkResponse(data: responseJson["data"], result: NetworkResult.SUCCESS);
+    return response.body;
   }
 
   Future<String> postFileV2({
     required File file,
   }) async {
     try {
+      debugPrint("enterd here");
+
       final postUri = Uri.parse(kBaseUrl);
       http.MultipartRequest request = http.MultipartRequest("POST", postUri);
       http.MultipartFile multipartFile = await http.MultipartFile.fromPath('file', file.path);
       request.files.add(multipartFile);
 
       http.StreamedResponse streamedResponse = await request.send();
+
+      debugPrint(streamedResponse.toString());
+
       final response = await http.Response.fromStream(streamedResponse);
+      debugPrint(response.toString());
       if (!response.statusCode.toString().startsWith("2")) {
         throw ApiFailure("an error occured");
       }
       debugPrint(response.body);
       return response.body;
     } catch (e) {
+      debugPrint(e.toString());
       throw ApiFailure(e.toString());
     }
   }
