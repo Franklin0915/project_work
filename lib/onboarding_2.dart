@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import "package:vehicle_recognition/Utils/assets.dart";
+import 'package:vehicle_recognition/results.dart';
 import 'package:vehicle_recognition/scan_page.dart';
 
+import 'api/result_model.dart';
 
 class Onboarding2 extends StatelessWidget {
   const Onboarding2({Key? key}) : super(key: key);
@@ -32,12 +34,12 @@ class Onboarding2 extends StatelessWidget {
               child: Container(
                 color: Colors.purple[900]?.withOpacity(0.5),
                 child: const Padding(
-                  padding:  EdgeInsets.fromLTRB(20, 45, 20, 0),
+                  padding: EdgeInsets.fromLTRB(20, 45, 20, 0),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children:  [
+                        children: [
                           Icon(
                             Icons.menu,
                             color: Colors.white,
@@ -48,8 +50,8 @@ class Onboarding2 extends StatelessWidget {
                           )
                         ],
                       ),
-                       SizedBox(height: 50),
-                       Align(
+                      SizedBox(height: 50),
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "VEHICLE \nNUMBER \nPLATE \nRECOGNITION",
@@ -72,8 +74,23 @@ class Onboarding2 extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ScanPage()),
+                MaterialPageRoute(builder: (context)=> const ScanPage())
               );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => ResultsPage(
+              //       result: ResultModel(
+              //         color: "red",
+              //         id: "id",
+              //         name: "name",
+              //         numberPlate: "numberPlate",
+              //         ownerFullName: "ownerFullName",
+              //         registeredAt: "registeredAt",
+              //       ),
+              //     ),
+              //   ),
+              // );
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.purple[900]),

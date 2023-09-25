@@ -20,7 +20,7 @@ mixin _$RecognizePlateState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(CarModel result) success,
+    required TResult Function(ResultModel result) success,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$RecognizePlateState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(CarModel result)? success,
+    TResult? Function(ResultModel result)? success,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$RecognizePlateState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(CarModel result)? success,
+    TResult Function(ResultModel result)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -130,7 +130,7 @@ class _$_RecognizePlateStateInitial implements _RecognizePlateStateInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(CarModel result) success,
+    required TResult Function(ResultModel result) success,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -141,7 +141,7 @@ class _$_RecognizePlateStateInitial implements _RecognizePlateStateInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(CarModel result)? success,
+    TResult? Function(ResultModel result)? success,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -152,7 +152,7 @@ class _$_RecognizePlateStateInitial implements _RecognizePlateStateInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(CarModel result)? success,
+    TResult Function(ResultModel result)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -248,7 +248,7 @@ class _$_RecognizePlateStateLoading implements _RecognizePlateStateLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(CarModel result) success,
+    required TResult Function(ResultModel result) success,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -259,7 +259,7 @@ class _$_RecognizePlateStateLoading implements _RecognizePlateStateLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(CarModel result)? success,
+    TResult? Function(ResultModel result)? success,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -270,7 +270,7 @@ class _$_RecognizePlateStateLoading implements _RecognizePlateStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(CarModel result)? success,
+    TResult Function(ResultModel result)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -329,7 +329,7 @@ abstract class _$$_RecognizePlateStateSuccessCopyWith<$Res> {
           $Res Function(_$_RecognizePlateStateSuccess) then) =
       __$$_RecognizePlateStateSuccessCopyWithImpl<$Res>;
   @useResult
-  $Res call({CarModel result});
+  $Res call({ResultModel result});
 }
 
 /// @nodoc
@@ -351,7 +351,7 @@ class __$$_RecognizePlateStateSuccessCopyWithImpl<$Res>
       result: null == result
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
-              as CarModel,
+              as ResultModel,
     ));
   }
 }
@@ -362,7 +362,7 @@ class _$_RecognizePlateStateSuccess implements _RecognizePlateStateSuccess {
   const _$_RecognizePlateStateSuccess({required this.result});
 
   @override
-  final CarModel result;
+  final ResultModel result;
 
   @override
   String toString() {
@@ -392,7 +392,7 @@ class _$_RecognizePlateStateSuccess implements _RecognizePlateStateSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(CarModel result) success,
+    required TResult Function(ResultModel result) success,
     required TResult Function(String message) error,
   }) {
     return success(result);
@@ -403,7 +403,7 @@ class _$_RecognizePlateStateSuccess implements _RecognizePlateStateSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(CarModel result)? success,
+    TResult? Function(ResultModel result)? success,
     TResult? Function(String message)? error,
   }) {
     return success?.call(result);
@@ -414,7 +414,7 @@ class _$_RecognizePlateStateSuccess implements _RecognizePlateStateSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(CarModel result)? success,
+    TResult Function(ResultModel result)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -463,10 +463,10 @@ class _$_RecognizePlateStateSuccess implements _RecognizePlateStateSuccess {
 }
 
 abstract class _RecognizePlateStateSuccess implements RecognizePlateState {
-  const factory _RecognizePlateStateSuccess({required final CarModel result}) =
+  const factory _RecognizePlateStateSuccess({required final ResultModel result}) =
       _$_RecognizePlateStateSuccess;
 
-  CarModel get result;
+  ResultModel get result;
   @JsonKey(ignore: true)
   _$$_RecognizePlateStateSuccessCopyWith<_$_RecognizePlateStateSuccess>
       get copyWith => throw _privateConstructorUsedError;
@@ -540,7 +540,7 @@ class _$_RecognizePlateStateError implements _RecognizePlateStateError {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(CarModel result) success,
+    required TResult Function(ResultModel result) success,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -551,7 +551,7 @@ class _$_RecognizePlateStateError implements _RecognizePlateStateError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(CarModel result)? success,
+    TResult? Function(ResultModel result)? success,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -562,7 +562,7 @@ class _$_RecognizePlateStateError implements _RecognizePlateStateError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(CarModel result)? success,
+    TResult Function(ResultModel result)? success,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
